@@ -1,0 +1,9 @@
+task build (type : Exec) {
+    print 'Building dbaas:'
+    // There currently isn't any build necessary.
+    executable = "ls"
+    args "-lah"
+}
+task do_all {
+    build.execute();
+}

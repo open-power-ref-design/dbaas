@@ -1,0 +1,11 @@
+task check (type : Exec) {
+     print 'Building dbaas'
+     executable = "ls";
+    standardOutput = new ByteArrayOutputStream()
+    ext.output = {
+       return standardOutput.toString()
+    }
+}
+task do_all{
+  check.execute();
+}
