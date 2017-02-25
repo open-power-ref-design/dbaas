@@ -6,12 +6,12 @@ General information about the Openstack Trove component can be found at:
 
 https://wiki.openstack.org/wiki/Trove
 
-This repository provides the following::
+This repository provides the following:
 
-    - `System Architecture and Bill of Materials <https://github.com/open-power-ref-design/dbaas/blob/master/dbaas.pdf>`_
-    - `Deployment configuration <https://github.com/open-power-ref-design/dbaas/blob/master/dbaas.xml>`_
+    `Bill of Materials <https://github.com/open-power-ref-design/dbaas/blob/master/dbaas.pdf>`_
+    `Deployment configuration file <https://github.com/open-power-ref-design/dbaas/blob/master/config.xml>`_
 
-The Architecture file provides a description and representation of Database
+The Bill of Materials document provides a description and representation of Database
 as a Service that is tuned for OpenPOWER servers.  It provides information
 such as model numbers and feature codes to simplify the ordering process
 and it provides racking and cabling rules for the preferred layout of
@@ -73,7 +73,7 @@ Getting Started
 The toolkit runs on an Ubuntu 16.04 OpenPOWER server or VM that is connected
 to the internet and management switch in the cluster to be configured.
 
-#. Read `dbaas.pdf <https://github.com/open-power-ref-design/dbaas/blob/master/bom/dbaas.pdf>`_
+#. Read `dbaas.pdf <https://github.com/open-power-ref-design/dbaas/blob/master/dbaas.pdf>`_
 
 #. Rack and cable hardware as indicated
 
