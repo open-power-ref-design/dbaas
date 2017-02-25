@@ -4,12 +4,12 @@ Database as a Service (Trove)
 
 General information about the Openstack Trove component can be found at:
 
-https://wiki.openstack.org/wiki/Trove
+    - https://wiki.openstack.org/wiki/Trove
 
 This repository provides the following:
 
-    `Bill of Materials <https://github.com/open-power-ref-design/dbaas/blob/master/dbaas.pdf>`_
-    `Deployment configuration file <https://github.com/open-power-ref-design/dbaas/blob/master/config.xml>`_
+    - `Bill of Materials <https://github.com/open-power-ref-design/dbaas/blob/master/dbaas.pdf>`_
+    - `Deployment configuration file <https://github.com/open-power-ref-design/dbaas/blob/master/config.yml>`_
 
 The Bill of Materials document provides a description and representation of Database
 as a Service that is tuned for OpenPOWER servers.  It provides information
