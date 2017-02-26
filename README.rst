@@ -97,7 +97,7 @@ to the internet and management switch in the cluster to be configured.
 
 #. Validate the configuration file::
 
-   $ git clone git://github.com/open-power-ref-design/os-services
+   $ git clone git://github.com/open-power-ref-design-toolkit/os-services
    $ cd os-services
    $ git checkout $TAG
    $ ./scripts/validate_config.py --file $CFG
@@ -140,7 +140,7 @@ The following files are installed for Trove:
 +-------------------+-----------------------------------------------------------+
 | Primary installer | ``/opt/openstack-ansible/playbooks/os-trove-install.yml`` |
 +-------------------+-----------------------------------------------------------+
-| Ansible role      | ``/etc/ansible/roles/power_trove/``                       |
+| Ansible role      | ``/etc/ansible/roles/os_trove/``                       |
 +-------------------+-----------------------------------------------------------+
 | Passwords         | ``/etc/openstack_deploy/user_secrets_trove.yml``          |
 +-------------------+-----------------------------------------------------------+
@@ -184,15 +184,13 @@ Verifying an install
 After successful installation, verify that Trove services are running correctly.
 
 * Check for existence of Trove container(s) using ``lxc-ls -f`` on the
-  controller nodes.
+  controller nodes. There should be three of them::
 
-* Attach Trove container using ``lxc-attach -n <container name>``
+  - *trove-api*
+  - *trove-conductor*
+  - *trove-taskmanager*
 
-* Check for existence of 3 Trove processes::
-
-  - trove-api
-  - trove-conductor
-  - trove-taskmanager
+* Attach to the utility container using ``lxc-attach -n <container name>``
 
 * Source the environment file::
 
