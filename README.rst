@@ -140,7 +140,7 @@ The following files are installed for Trove:
 +-------------------+-----------------------------------------------------------+
 | Primary installer | ``/opt/openstack-ansible/playbooks/os-trove-install.yml`` |
 +-------------------+-----------------------------------------------------------+
-| Ansible role      | ``/etc/ansible/roles/os_trove/``                       |
+| Ansible role      | ``/etc/ansible/roles/os_trove/``                          |
 +-------------------+-----------------------------------------------------------+
 | Passwords         | ``/etc/openstack_deploy/user_secrets_trove.yml``          |
 +-------------------+-----------------------------------------------------------+
