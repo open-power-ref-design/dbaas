@@ -24,11 +24,12 @@ plane, and storage plane.  Each role is defined in terms of operating system
 based resources such as users and networks that need to be configured
 to satisfy that role.
 
-The Deployment configuration file needs to be edited so that it reflects the
-configuration that is to be installed.  This is mostly a matter of making sure
-that the numbers of servers represented match the number of servers to be
-installed and that IP addresses are allocated so that the installation is
-properly integrated into the data center.
+The Deployment configuration file must be edited prior to deployment
+to reflect the actual configuration that is to be installed.  This is
+mostly a matter of making sure that the numbers of servers represented
+match the number of servers to be installed and that externally visible
+IP addresses are allocated from a user specified pool, so that the
+installation is properly integrated into the data center.
 
 The installation process is split into two parts::
 

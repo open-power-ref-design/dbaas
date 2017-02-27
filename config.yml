@@ -333,14 +333,14 @@ node-templates:
             - openstack-mgmt
             - openstack-stg
             - swift-replication
+
 software-bootstrap:
     controllers[0]: |
         export GIT_BRANCH=master
-        export SOLUTION_BRANCH=master
         export DEPLOY_CEPH=yes
         export DEPLOY_OPSMGR=yes
         # export ANSIBLE_HOST_KEY_CHECKING=False
-        URL="https://raw.githubusercontent.com/open-power-ref-design/dbaas/${SOLUTION_BRANCH}/scripts/bootstrap-solution.sh"
+        URL="https://raw.githubusercontent.com/open-power-ref-design-toolkit/os-services/${GIT_BRANCH}/scripts/bootstrap-solution.sh"
         wget ${URL}
         chmod +x bootstrap-solution.sh
         ./bootstrap-solution.sh
