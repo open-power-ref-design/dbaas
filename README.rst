@@ -56,13 +56,14 @@ which are loaded into the first controller that is setup by cluster-genesis.
 
 The OpenStack dashboard may be reached through your browser:
 
-https://<ipaddr or hostname of an OpenStack control node>
+https://<ipaddr from external-floating-ipaddr in the config.yaml>
 
 This recipe also includes an operational management console which is
 integrated into the OpenStack dashboard.  It monitors the cloud infrastructure
 and shows metrics relates to the capacity, utilization, and health of the
 cloud infrastructure.  It may also be configured to generate alerts when
 components fail.  It is provided through the opsmgr repository.
+
 
 .. Hint::
    Only os-services must be configured before invoking create-cluster.  For
@@ -98,6 +99,8 @@ to the internet and management switch in the cluster to be configured.
 
 #. Validate the configuration file::
 
+   $ apt-get install python-pip
+   $ pip install pyyaml
    $ git clone git://github.com/open-power-ref-design-toolkit/os-services
    $ cd os-services
    $ git checkout $TAG
@@ -118,7 +121,7 @@ to the internet and management switch in the cluster to be configured.
 
 #. Edit the OpenStack Installer configuration file:
 
-   OpenStack installation is performed by openstack-ansible.  Instructions
+   OpenStack installation is performed by OpenStack-Ansible.  Instructions
    for editing the user configuration files of OpenStack is described in
    general terms in os-services.  Instructions specifically for DBaaS service
    are described below in the Trove Installation section.
@@ -148,7 +151,7 @@ The following files are installed for Trove:
 | Container defns   | ``/etc/openstack_deploy/env.d/trove.yml``                 |
 +-------------------+-----------------------------------------------------------+
 
-See README.rst in os-services for more details. 
+See README.rst in os-services for more details.
 
 Customization
 -------------

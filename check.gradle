@@ -1,11 +1,11 @@
 task check (type : Exec) {
-     print 'Building dbaas'
-     executable = "ls";
-    standardOutput = new ByteArrayOutputStream()
-    ext.output = {
-       return standardOutput.toString()
-    }
+    print 'Check task on dbaas:'
+    workingDir '.'
+    // Run the default tox environment.
+    executable = "tox"
+    args "-r"
 }
+
 task do_all{
   check.execute();
 }
