@@ -112,7 +112,7 @@ networks:
         description: OpenStack Tenant vlan Network
         bridge: br-vlan
         method: static
-        addr: 0.0.0.0/1  # Nodes do not get IPs assigned in this network
+        addr: 0.0.0.0/32  # Nodes do not get IPs assigned in this network
         eth-port: eth11
         bridge-port: veth12
         mtu: 9000
