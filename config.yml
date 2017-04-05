@@ -140,6 +140,9 @@ racks:
 node-templates:
     controllers:
         hostname: controller
+        roles:
+            - solution_keys
+            - solution_inventory
         userid-ipmi: admin
         password-ipmi: admin
         cobbler-profile: ubuntu-16.04.1-server-ppc64el
@@ -184,6 +187,8 @@ node-templates:
             - pxe-dhcp
     compute:
         hostname: compute
+        roles:
+            - solution_keys
         userid-ipmi: admin
         password-ipmi: admin
         cobbler-profile: ubuntu-16.04.1-server-ppc64el
