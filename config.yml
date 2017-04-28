@@ -1,5 +1,5 @@
 ---
-# Copyright 2016 IBM Corp.
+# Copyright 2016,2017 IBM Corp.
 #
 # All Rights Reserved.
 #
@@ -23,7 +23,7 @@
 # nodes, and the account, container, and object rings converged on the same
 # set of nodes.
 
-version: 1.1
+version: 1.2
 
 reference-architecture:
     - private-compute-cloud
@@ -37,12 +37,37 @@ vlan-mgmt-network: 16
 vlan-mgmt-client-network: 20
 port-mgmt-network: 46
 port-mgmt-data-network:
-    rack1: 47
+    rack1:
+        - 45
+        - 47
 ipaddr-mgmt-switch:
     rack1: 192.168.16.20
+cidr-mgmt-switch-external-dev: 192.168.32.2/24
+ipaddr-mgmt-switch-external:
+    rack1: 192.168.32.20
 ipaddr-data-switch:
-    rack1: 192.168.16.25
-redundant-network: false
+    rack1:
+        - 192.168.16.25
+        - 192.168.16.30
+ipaddr-mlag-vip:
+    _rack1: 192.168.16.254
+cidr-mlag-ipl:
+    _rack1:
+        - 10.0.0.1/24
+        - 10.0.0.2/24
+mlag-vlan:
+    _rack1: 4000
+mlag-port-channel:
+    _rack1: 35
+mlag-ipl-ports:
+    _rack1:
+        -
+            - 35
+            - 36
+        -
+            - 35
+            - 36
+redundant-network: true
 userid-default: ubuntu
 password-default: passw0rd
 userid-mgmt-switch: admin       # applied to all mgmt switches
@@ -52,33 +77,71 @@ password-data-switch: admin
 internal-floating-ipaddr: 172.29.236.50
 external-floating-ipaddr: 10.0.16.50
 networks:
-    external1:
-        description: Organization site or external network
-        addr: 10.0.16.0/22
-        # Note you can uncomment the following section to provide a set of IPs
-        # on this network that will be allocated to the hosts.  The default
-        # behavior is to allocate from the full subnet.
-        # available-ips:
-            # - 10.0.16.20
-            # - 10.0.16.35
-            # - 10.0.16.106 10.0.16.110  # this is an IP range
-            # - 10.0.16.115
-        broadcast: 10.0.19.255
-        gateway: 10.0.16.1
-#       dns-nameservers: 10.0.16.200
-#       dns-search: mycompany.domain.com
-        method: static
+    ext1:
+        description: Interface for eth10
+        method: manual
         eth-port: eth10
         mtu: 9000
-    external2:
+    ext2:
         description: Interface for eth11
         method: manual
         eth-port: eth11
+        mtu: 9000
+    ext3:
+        description: Interface for eth12
+        method: manual
+        eth-port: eth12
+        mtu: 9000
+    ext4:
+        description: Interface for eth13
+        method: manual
+        eth-port: eth13
         mtu: 9000
     pxe-dhcp:
         description: Change pxe port(eth15) to dhcp
         method: dhcp
         eth-port: eth15
+    external1:
+        description: bonded public interface
+        bond: osbond0
+        addr: 10.0.16.0/22
+        # Note you can uncomment the following section to provide a set of IPs
+        # on this network that will be allocated to the hosts.  The default
+        # behavior is to allocate from the full subnet.
+        #available-ips:
+        #    - 10.0.16.20
+        #    - 10.0.16.35
+        #    - 10.0.16.106 10.0.16.110  # this is an IP range
+        #    - 10.0.16.115
+        broadcast: 10.0.19.255
+        gateway: 10.0.16.1
+        #dns-nameservers: 10.0.16.200
+        #dns-search: mycompany.domain.com
+        method: static
+        bond-interfaces:
+            # for full protection against failure, eth10 and eth11 should come from different NICs
+            - eth10
+            - eth11
+        mtu: 9000
+        bond-primary: eth10
+        bond-mode: 4
+        optional-bond-arguments:
+            bond-miimon: 100
+            bond-lacp-rate: 1
+    external2:
+        description: bonded interface
+        bond: osbond1
+        method: manual
+        bond-interfaces:
+        # for full protection against failure, eth12 and eth13 should come from different NICs
+            - eth12
+            - eth13
+        mtu: 9000
+        bond-primary: eth12
+        bond-mode: 4
+        optional-bond-arguments:
+            bond-miimon: 100
+            bond-lacp-rate: 1
     openstack-mgmt:
         description: OpenStack Management Network
         bridge: br-mgmt
@@ -86,7 +149,7 @@ networks:
         tcp_segmentation_offload: 'off'
         addr: 172.29.236.0/22
         vlan: 10
-        eth-port: eth10
+        eth-port: osbond0
         mtu: 9000
         # This bridge port allows the DBaaS/Trove agent in the tenant DB VMs
         # to communicate on the infrastructure network.
@@ -98,7 +161,7 @@ networks:
         tcp_segmentation_offload: 'off'
         addr: 172.29.244.0/22
         vlan: 20
-        eth-port: eth10
+        eth-port: osbond0
         mtu: 9000
     openstack-tenant-vxlan:
         description: OpenStack Tenant vxlan Network
@@ -106,14 +169,14 @@ networks:
         method: static
         addr: 172.29.240.0/22
         vlan: 30
-        eth-port: eth11
+        eth-port: osbond1
         mtu: 9000
     openstack-tenant-vlan:
         description: OpenStack Tenant vlan Network
         bridge: br-vlan
         method: static
         addr: 0.0.0.0/32  # Nodes do not get IPs assigned in this network
-        eth-port: eth11
+        eth-port: osbond1
         bridge-port: veth12
         mtu: 9000
     ceph-replication:
@@ -122,7 +185,7 @@ networks:
         bridge: br-replication
         method: static
         vlan: 40
-        eth-port: eth11
+        eth-port: osbond1
         mtu: 9000
     swift-replication:
         description: Swift Replication Network
@@ -130,7 +193,7 @@ networks:
         bridge: br-swift-repl
         method: static
         vlan: 50
-        eth-port: eth11
+        eth-port: osbond1
         mtu: 9000
 racks:
     - rack-id: rack1
@@ -150,6 +213,8 @@ node-templates:
             mac-pxe: eth15
             mac-eth10: eth10
             mac-eth11: eth11
+            mac-eth12: eth12
+            mac-eth13: eth13
         # Each host has one network interface for each of these ports and
         # these port numbers represent the switch port number to which the host
         # interface is cabled.  If a port can be broken out using breakout
@@ -167,23 +232,37 @@ node-templates:
                     - 4
                     - 5
                     - 6
-            eth10:
+            eth10:       # for MLAG setup, these connect to 1st data switch
                 rack1:
                     - 1
                     - 2
                     - 3
-            eth11:
+            eth11:       # for MLAG setup, these connect to 2nd data switch
+                rack1:
+                    - 1
+                    - 2
+                    - 3
+            eth12:       # for MLAG setup, these connect to 1st data switch
+                rack1:
+                    - 4
+                    - 5
+                    - 6
+            eth13:       # for MLAG setup, these connect to 2nd data switch
                 rack1:
                     - 4
                     - 5
                     - 6
         networks:
+            - ext1
+            - ext2
+            - ext3
+            - ext4
+            - external1
+            - external2
             - openstack-mgmt
             - openstack-stg
             - openstack-tenant-vlan
             - openstack-tenant-vxlan
-            - external1
-            - external2
             - pxe-dhcp
     compute:
         hostname: compute
@@ -196,6 +275,8 @@ node-templates:
             mac-pxe: eth15
             mac-eth10: eth10
             mac-eth11: eth11
+            mac-eth12: eth12
+            mac-eth13: eth13
         # Each host has one network interface for each of these ports and
         # these port numbers represent the switch port number to which the host
         # interface is cabled.  If a port can be broken out using breakout
@@ -220,16 +301,30 @@ node-templates:
                     - 9
             eth11:
                 rack1:
+                    - 7
+                    - 8
+                    - 9
+            eth12:
+                rack1:
+                    - 10
+                    - 11
+                    - 12
+            eth13:
+                rack1:
                     - 10
                     - 11
                     - 12
         networks:
+            - ext1
+            - ext2
+            - ext3
+            - ext4
+            - external1
+            - external2
             - openstack-mgmt
             - openstack-stg
             - openstack-tenant-vlan
             - openstack-tenant-vxlan
-            - external1
-            - external2
             - pxe-dhcp
     ceph-osd:
         hostname: cephosd
@@ -240,6 +335,8 @@ node-templates:
             mac-pxe: eth15
             mac-eth10: eth10
             mac-eth11: eth11
+            mac-eth12: eth12
+            mac-eth13: eth13
         # Each host has one network interface for each of these ports and
         # these port numbers represent the switch port number to which the host
         # interface is cabled.  If a port can be broken out using breakout
@@ -264,10 +361,24 @@ node-templates:
                     - 15
             eth11:
                 rack1:
+                    - 13
+                    - 14
+                    - 15
+            eth12:
+                rack1:
+                    - 16
+                    - 17
+                    - 18
+            eth13:
+                rack1:
                     - 16
                     - 17
                     - 18
         networks:
+            - ext1
+            - ext2
+            - ext3
+            - ext4
             - external1
             - external2
             - openstack-mgmt
@@ -284,7 +395,7 @@ node-templates:
                 - /dev/sdg
                 - /dev/sdh
     swift-object:
-        hostname: swiftobject
+        hostname: swiftobj
         userid-ipmi: admin
         password-ipmi: admin
         cobbler-profile: ubuntu-16.04.1-server-ppc64el
@@ -292,6 +403,8 @@ node-templates:
             mac-pxe: eth15
             mac-eth10: eth10
             mac-eth11: eth11
+            mac-eth12: eth12
+            mac-eth13: eth13
         # Each host has one network interface for each of these ports and
         # these port numbers represent the switch port number to which the host
         # interface is cabled.  If a port can be broken out using breakout
@@ -316,9 +429,30 @@ node-templates:
                     - 21
             eth11:
                 rack1:
+                    - 19
+                    - 20
+                    - 21
+            eth12:
+                rack1:
                     - 22
                     - 23
                     - 24
+            eth13:
+                rack1:
+                    - 22
+                    - 23
+                    - 24
+        networks:
+            - ext1
+            - ext2
+            - ext3
+            - ext4
+            - external1
+            - external2
+            - openstack-mgmt
+            - openstack-stg
+            - swift-replication
+            - pxe-dhcp
         domain-settings:
             # These settings specify the list of devices that will be used
             # for the rings.  The values can be disk device by path, in which
@@ -331,14 +465,6 @@ node-templates:
             object-ring-devices:
                 - /dev/disk/by-path/pci-0004:01
 
-        networks:
-            - pxe-dhcp
-            - external1
-            - external2
-            - openstack-mgmt
-            - openstack-stg
-            - swift-replication
-
 software-bootstrap:
     controllers[0]: |
         export GIT_BRANCH=v1.4.0
@@ -349,3 +475,4 @@ software-bootstrap:
         wget ${URL}
         chmod +x bootstrap-solution.sh
         ./bootstrap-solution.sh
+
