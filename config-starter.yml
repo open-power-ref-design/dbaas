@@ -194,7 +194,7 @@ node-templates:
                 - /dev/sdl
 software-bootstrap:
     starter[0]: |
-        export GIT_BRANCH=newton
+        export GIT_BRANCH=v1.5.0
         export DEPLOY_CEPH=yes
         export DEPLOY_OPSMGR=yes
         # export ANSIBLE_HOST_KEY_CHECKING=False
