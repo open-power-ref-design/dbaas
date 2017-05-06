@@ -9,7 +9,8 @@ General information about the Openstack Trove component can be found at:
 This repository provides the following:
 
     - `Bill of Materials <https://github.com/open-power-ref-design/dbaas/blob/master/docs/bom.pdf>`_
-    - `Deployment configuration file <https://github.com/open-power-ref-design/dbaas/blob/master/config.yml>`_
+    - `Deployment configuration file for a DBaaS cluster <https://github.com/open-power-ref-design/dbaas/blob/master/config.yml>`_
+    - `Deployment configuration file for a starter DBaaS cluster <https://github.com/open-power-ref-design/dbaas/blob/master/config-starter.yml>`_
 
 The Bill of Materials document provides a description and representation of Database
 as a Service that is tuned for OpenPOWER servers.  It provides information
@@ -78,7 +79,7 @@ Getting Started
 The toolkit runs on an Ubuntu 16.04 OpenPOWER server or VM that is connected
 to the internet and management switch in the cluster to be configured.
 
-#. Read `bom.pdf <https://github.com/open-power-ref-design/dbaas/blob/master/docs/bom.pdf>`_
+#. Read the `Bill Of Materials <https://github.com/open-power-ref-design/dbaas/blob/master/docs/bom.pdf>`_
 
 #. Rack and cable hardware as indicated
 
