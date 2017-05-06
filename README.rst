@@ -8,7 +8,7 @@ General information about the Openstack Trove component can be found at:
 
 This repository provides the following:
 
-    - `Bill of Materials <https://github.com/open-power-ref-design/dbaas/blob/master/dbaas.pdf>`_
+    - `Bill of Materials <https://github.com/open-power-ref-design/dbaas/blob/master/docs/bom.pdf>`_
     - `Deployment configuration file <https://github.com/open-power-ref-design/dbaas/blob/master/config.yml>`_
 
 The Bill of Materials document provides a description and representation of Database
@@ -78,7 +78,7 @@ Getting Started
 The toolkit runs on an Ubuntu 16.04 OpenPOWER server or VM that is connected
 to the internet and management switch in the cluster to be configured.
 
-#. Read `dbaas.pdf <https://github.com/open-power-ref-design/dbaas/blob/master/dbaas.pdf>`_
+#. Read `bom.pdf <https://github.com/open-power-ref-design/dbaas/blob/master/docs/bom.pdf>`_
 
 #. Rack and cable hardware as indicated
 
@@ -151,7 +151,7 @@ The following files are installed for Trove:
 | Container defns   | ``/etc/openstack_deploy/env.d/trove.yml``                 |
 +-------------------+-----------------------------------------------------------+
 
-See README.rst in os-services for more details.
+See README.rst <https://github.com/open-power-ref-design-toolkit/os-services/blob/master/README.rst> in os-services for more details.
 
 Customization
 -------------
