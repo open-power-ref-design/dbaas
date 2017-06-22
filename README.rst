@@ -111,7 +111,7 @@ to the internet and management switch in the cluster to be configured.
 
    $ git clone git://github.com/open-power-ref-design-toolkit/cluster-genesis
    $ cd cluster-genesis
-   $ git checkout 1.2.1
+   $ git checkout 1.3.0
    $ cp $CFG .
 
 #. Invoke cluster-genesis to perform the bare metal installation process:
